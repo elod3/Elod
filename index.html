@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Előd oldala</title>
+    <style>
+        /* Alapértelmezett (Light Mode) stílusok */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: white; /* Fehér háttér a világos módban */
+            overflow-x: hidden;
+            color: black; /* Fekete szöveg világos módban */
+        }
+
+        /* Sötét mód stílusok */
+        body.dark-mode {
+            background-color: #121212; /* Sötét háttér */
+            color: white; /* Fehér szöveg sötét módban */
+        }
+
+        /* Spline 3D háttér */
+        spline-viewer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Navigációs sáv */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.7); /* Világos módhoz */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 0;
+            z-index: 1;
+            transition: top 0.3s ease; /* Simább animáció */
+        }
+
+        body.dark-mode .navbar {
+            background-color: rgba(255, 255, 255, 0.7); /* Sötét módhoz */
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .navbar li {
+            display: inline;
+        }
+
+        .navbar a {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        body.dark-mode .navbar a {
+            color: black; /* Sötét módhoz a szöveg színe fekete */
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        body.dark-mode .navbar a:hover {
+            background-color: #555;
+            color: white;
+        }
+
+        /* Középső szöveg */
+        .content {
+            position: absolute;
+            top: 50%; /* A szöveg középre igazítása */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2em;
+            text-align: center;
+            z-index: 1;
+            margin-top: 60px; /* Tördelés a navbar alatt */
+        }
+
+        /* Második szekció */
+        #bottom-section {
+            background-color: white;
+            color: black;
+            padding: 50px;
+            text-align: center;
+            margin-top: 100vh; /* Magasság, hogy csak akkor jelenjen meg, ha a felhasználó lejjebb görget */
+        }
+
+        body.dark-mode #bottom-section {
+            background-color: #333;
+            color: white;
+        }
+
+        #bottom-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .insta-videos {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .insta-videos iframe {
+            border-radius: 8px;
+            width: 300px;
+            height: 500px;
+        }
+
+        /* Mód váltó gomb a navbaron */
+        .mode-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .mode-toggle:hover {
+            background-color: #444;
+        }
+
+        /* Reszponzív beállítások */
+        @media (max-width: 768px) {
+            .content {
+                font-size: 1.5em;
+            }
+
+            .navbar a {
+                padding: 10px 12px;
+            }
+
+            .insta-videos iframe {
+                width: 100%;
+                height: 250px;
+            }
+
+            #bottom-section {
+                padding: 20px;
+            }
+
+            #bottom-section h2 {
+                font-size: 2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                font-size: 1.2em;
+            }
+
+            .navbar a {
+                padding: 8px 10px;
+            }
+
+            .insta-videos iframe {
+                width: 100%;
+                height: 200px;
+            }
+
+            #bottom-section h2 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Spline háttér -->
+    <spline-viewer url="https://prod.spline.design/iTKD3tBC551VwdPm/scene.splinecode"></spline-viewer>
+
+    <!-- Navigációs sáv -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="#home">Acasă</a></li>
+           
+            <li><a href="#bottom-section">Descarcă poze de fundal</a></li>
+        </ul>
+        <!-- Mód váltó gomb a navbaron -->
+        <button class="mode-toggle" onclick="toggleMode()">Schimbă modul</button>
+    </nav>
+
+    <!-- Középső szöveg -->
+    <div class="content">
+       
+        
+    </div>
+
+    <!-- Második szekció -->
+    <div id="bottom-section">
+
+       
+
+    <!-- Spline néző script -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.54/build/spline-viewer.js"></script>
+
+    <!-- JavaScript a mód váltáshoz -->
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Eltüntetjük a "Made with Spline" feliratot
+        window.onload = function() {
+            let iframe = document.querySelector('spline-viewer iframe');
+            iframe.onload = function() {
+                let iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                let logo = iframeDoc.querySelector('.spline-embed-logo');
+                if (logo) {
+                    logo.style.display = 'none';
+                }
+            }
+        }
+
+        // Görgetési esemény, hogy a navbar eltűnjön
+        let lastScrollTop = 0;
+        let navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', function() {
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            if (currentScroll > lastScrollTop) {
+                navbar.style.top = "-60px"; 
+            } else {
+                navbar.style.top = "0";
+            }
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        });
+    </script>
+    <h1>De aicia poți descărca făgăduințe de fundal!</h1>
+</a>
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pagina lui Elod</title>
+    <style>
+        /* Alapértelmezett (Light Mode) stílusok */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: black;
+            text-align: center;
+        }
+
+        .content {
+            margin-top: 50px;
+        }
+
+        .image-links {
+            margin-top: 30px;
+        }
+
+        .image-links a {
+            display: inline-block;
+            margin: 20px;
+        }
+
+        .image-links img {
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content">
+        <h1>Bine ați venit pe site!</h1>
+        <p>Derulați în jos pentru a descărca imagini!</p>
+    </div>
+
+    <!-- Képek letöltési lehetőség -->
+    <div class="image-links">
+        <a href="foto1.png" download>
+            <img src="foto1.png" alt="Foto 1" />
+        </a>
+        <a href="foto2.jpeg" download>
+            <img src="foto2.jpeg" alt="Foto 2" />
+        </a>
+        <a href="foto3.jpg" download>
+            <img src="foto3.jpg" alt="Foto 3" />
+        </a>
+        <a href="2.png" download>
+            <img src="2.png" alt="foto 4" />
+            </a>
+    </div>
+
+
+
+
+</body>
+</html>
